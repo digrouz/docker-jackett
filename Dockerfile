@@ -13,7 +13,7 @@ RUN apk upgrade --no-cache && \
       curl \
       wget && \
     apk add --no-cache --virtual=run-deps \
-      libcurl
+libcurl \
       su-exec && \
     apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --virtual-run-deps-testing \
       mono && \
