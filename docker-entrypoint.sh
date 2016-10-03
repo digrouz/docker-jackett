@@ -54,7 +54,7 @@ if [ "$1" = 'jackett' ]; then
   if [ -d  /config ]; then
     /bin/chown -R ${MYUSER}:${MYUSER} /config
   fi
-  exec /sbin/su-exec jackett /usr/bin/mono /opt/Jackett/JacketConsole.exe 
+  exec /sbin/su-exec jackett /usr/bin/mono /opt/Jackett/JackettConsole.exe 
 fi
 
 exec "$@"
