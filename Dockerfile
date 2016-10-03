@@ -5,21 +5,24 @@ MAINTAINER DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
-    TERM='xterm' 
+    TERM='xterm' \ 
+    XDG_DATA_HOME='/config' \
+    XDG_CONFIG_HOME='/config'
 
 ### Install Application
 RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual=build-deps \
       curl \
+      ca-certificates \
       wget && \
     apk add --no-cache --virtual=run-deps \
-libcurl \
+      libcurl \
       su-exec && \
     apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --virtual-run-deps-testing \
       mono && \
     mkdir -p /opt/Jackett
     RELEASE=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | awk -F "[><]" '{print $3}') && \
-    curl -o /tmp/jacket.tar.gz -L https://github.com/Jackett/Jackett/releases/download/${RELEASE}/Jackett.Binaries.Mono.tar.gz && \
+    wget -q https://github.com/Jackett/Jackett/releases/download/${RELEASE}/Jackett.Binaries.Mono.tar.gz -O /tmp/jacket.tar.gz && \
     tar xzf /tmp/jacket.tar.gz -C /opt && \
     apk del --no-cache --purge \
       build-deps  && \
