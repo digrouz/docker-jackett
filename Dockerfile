@@ -12,7 +12,6 @@ ENV LANG='en_US.UTF-8' \
 ### Install Application
 RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual=build-deps \
-      curl \
       ca-certificates \
       wget && \
     apk add --no-cache --virtual=run-deps \
