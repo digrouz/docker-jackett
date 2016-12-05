@@ -18,6 +18,7 @@ RUN apk upgrade --no-cache && \
       libcurl \
       su-exec && \
     apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --virtual=run-deps-testing \
+      python2 \
       mono && \
     mkdir -p /opt/Jackett && \
     RELEASE=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | awk -F "[><]" '{print $3}') && \
