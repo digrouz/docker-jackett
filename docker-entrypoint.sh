@@ -1,8 +1,8 @@
 #!/bin/sh
 
-local MYUSER="jackett"
-local MYGID="10008"
-local MYUID="10008"
+MYUSER="jackett"
+MYGID="10008"
+MYUID="10008"
 
 ConfigureUser () {
   # Managing user
