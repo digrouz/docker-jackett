@@ -21,7 +21,7 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --virtual=run-deps-testing \
       mono && \
     mkdir -p /opt/Jackett && \
-    RELEASE=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | awk -F "[><]" '{print $3} | tail -n 1') && \
+    RELEASE=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | awk -F "[><]" '{print $3}' | tail -n 1) && \
     wget -q https://github.com/Jackett/Jackett/releases/download/${RELEASE}/Jackett.Binaries.Mono.tar.gz -O /tmp/jacket.tar.gz && \
     tar xzf /tmp/jacket.tar.gz -C /opt && \
     apk del --no-cache --purge \
