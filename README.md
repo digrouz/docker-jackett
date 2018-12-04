@@ -1,8 +1,14 @@
-# docker-alp-jackett
-Installs Jackett into an Alpine Linux Container
+# docker-jackett
+Installs Jackett into a Linux Container
 
 
 ![jackett](https://github.com/Jackett/Jackett/blob/master/src/Jackett/Content/jacket_medium.png)
+
+## Tag
+Several tag are available:
+* latest: see alpine3.8
+* centos7: [centos7/Dokerfile](https://github.com/digrouz/docker-jackett/blob/centos7/Dockerfile)
+* alpine3.8: [alpine3.8/Dockerfile](https://github.com/digrouz/docker-jackett/blob/alpine3.8/Dockerfile)
 
 ## Description
 
@@ -19,8 +25,9 @@ https://github.com/Jackett/Jackett
       -v <path to downloads>:/downloads \
       -e DOCKUID=<UID default:10008> \
       -e DOCKGID=<GID default:10008> \
+      -e DOCKUPGRADE=<0|1> \
       -p 9117:9117 \
-      digrouz/docker-alp-jackett
+      digrouz/jackett
 
 ## Environment Variables
 
@@ -34,3 +41,14 @@ This variable is not mandatory and specifies the user id that will be set to run
 
 This variable is not mandatory and specifies the group id that will be set to run the application. It has default value `10008`.
 
+### `DOCKUPGRADE`
+
+This variable is not mandatory and specifies if the container has to launch software update at startup or not. Valid values are `0` and `1`. It has default value `0`.
+
+## Notes
+
+* The docker entrypoint can upgrade operating system at each startup. To enable this feature, just add `-e DOCKUPGRADE=1` at container creation.
+
+## Issues
+
+If you encounter an issue please open a ticket at [github](https://github.com/digrouz/docker-sickrage/issues)
