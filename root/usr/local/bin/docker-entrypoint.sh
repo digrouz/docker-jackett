@@ -21,6 +21,7 @@ if [ "$1" = 'jackett' ]; then
   
   RunDropletEntrypoint
   
+  DockLog "Starting app: ${@}"
   exec su-exec "${MYUSER}" mono /opt/Jackett/JackettConsole.exe 
 else
   DockLog "Starting command: ${@}"
