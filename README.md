@@ -51,4 +51,4 @@ This variable is not mandatory and specifies if the container has to launch soft
 
 ## Issues
 
-If you encounter an issue please open a ticket at [github](https://github.com/digrouz/docker-sickrage/issues)
+If you encounter an issue please open a ticket at [github](https://github.com/digrouz/docker-jackett/issues)
