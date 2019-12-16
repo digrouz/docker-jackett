@@ -18,6 +18,37 @@ DetectOS(){
   echo $OS
 }
 
+AutoUpgrade(){
+  local OS=$(DetectOS)
+  local MYUPGRADE=0
+  if [ "$(id -u)" = '0' ]; then
+    if [ -n "${DOCKUPGRADE}" ]; then
+      MYUPGRADE="${DOCKUPGRADE}"
+    fi
+    if [ "${MYUPGRADE}" == 1 ]; then
+      DockLog "AutoUpgrade is enabled."
+      if [ "${OS}" == "alpine" ]; then
+        apk --no-cache upgrade
+        rm -rf /var/cache/apk/*
+      elif [ "${OS}" == "ubuntu" ]; then
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update
+        apt-get -y --no-install-recommends dist-upgrade
+        apt-get -y autoclean
+        apt-get -y clean
+        apt-get -y autoremove
+        rm -rf /var/lib/apt/lists/*
+      elif [ "${OS}" == "centos" ]; then
+        yum upgrade -y
+        yum clean all
+        rm -rf /var/cache/yum/*
+      fi
+    else
+      DockLog "AutoUpgrade is not enabled."
+    fi
+  fi
+}
+
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
@@ -124,10 +155,11 @@ ConfigureUser () {
 
 DockLog(){
   local OS=$(DetectOS)
+  local MYDATE=$(date)
   if [ "${OS}" == "centos" ] || [ "${OS}" == "alpine" ]; then
-    echo "${1}"
+    echo "[${MYDATE}] ${1}"
   else
-    logger "${1}"
+    logger "[${MYDATE}] ${1}"
   fi
 }
 
@@ -164,30 +196,20 @@ PrepareEnvironment(){
   fi
 }
 
-AutoUpgrade(){
-  local MYUPGRADE="0"
-  local OS=$(DetectOS)
-  if [ "$(id -u)" = '0' ]; then
-    if [ -n "${DOCKUPGRADE}" ]; then
-      MYUPGRADE="${DOCKUPGRADE}"
+ConfigureSsmtp () {
+  # Customizing sstmp
+  if [ -f /etc/ssmtp/ssmtp.conf ];then
+    # Configure relay
+    if [ -n "${DOCKRELAY}" ]; then
+      sed -i "s|mailhub=mail|mailhub=${DOCKRELAY}|i" /etc/ssmtp/ssmtp.conf
     fi
-    if [ "${MYUPGRADE}" == 1 ]; then
-      if [ "${OS}" == "alpine" ]; then
-        apk --no-cache upgrade
-        rm -rf /var/cache/apk/*
-      elif [ "${OS}" == "ubuntu" ]; then
-        export DEBIAN_FRONTEND=noninteractive
-        apt-get update
-        apt-get -y --no-install-recommends dist-upgrade
-        apt-get -y autoclean
-        apt-get -y clean
-        apt-get -y autoremove
-        rm -rf /var/lib/apt/lists/*
-      elif [ "${OS}" == "centos" ]; then
-        yum upgrade -y
-        yum clean all
-        rm -rf /var/cache/yum/*
-      fi
+    # Configure root
+    if [ -n "${DOCKMAIL}" ]; then
+      sed -i "s|root=postmaster|root=${DOCKMAIL}|i" /etc/ssmtp/ssmtp.conf
+    fi
+    # Configure domain
+    if [ -n "${DOCKMAILDOMAIN}" ]; then
+      sed -i "s|#rewriteDomain=.*|rewriteDomain=${DOCKMAILDOMAIN}|i" /etc/ssmtp/ssmtp.conf
     fi
   fi
 }
