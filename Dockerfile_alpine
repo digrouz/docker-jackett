@@ -36,7 +36,6 @@ RUN set -x && \
     apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --virtual=run-deps-testing \
       mono \
     && \
-    mozroots --import --sync && \
     cert-sync /etc/ssl/certs/ca-certificates.crt && \
     ln -s /usr/lib/libmono-native.so.0 /usr/lib/libmono-native.so && \
     echo "export XDG_DATA_HOME='${XDG_DATA_HOME}'" > /etc/profile.d/docker-xdg.sh && \
