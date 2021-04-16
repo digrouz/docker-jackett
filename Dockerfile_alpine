@@ -1,6 +1,8 @@
 FROM alpine:3.13
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
+ARG JACKETT_VERSION='0.17.886'
+
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
@@ -9,7 +11,8 @@ ENV LANG='en_US.UTF-8' \
     APPUID='10008' \
     APPGID='10008' \
     XDG_DATA_HOME='/config' \
-    XDG_CONFIG_HOME='/config'
+    XDG_CONFIG_HOME='/config' \
+    JACKETT_VERSION="${JACKETT_VERSION}"
     
 ### Copy config files
 COPY root/ /
@@ -42,8 +45,7 @@ RUN set -x && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     mkdir -p /opt/Jackett && \
     mkdir -p /home/"${MYUSER}"/.config && \
-    RELEASE=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | awk -F "[><]" '{print $3}' | tail -n 1) && \
-    wget -q https://github.com/Jackett/Jackett/releases/download/${RELEASE}/Jackett.Binaries.Mono.tar.gz -O /tmp/jacket.tar.gz && \
+    curl -sSL https://github.com/Jackett/Jackett/releases/download/v${JACKETT_VERSION}/Jackett.Binaries.Mono.tar.gz -O /tmp/jacket.tar.gz && \
     tar xzf /tmp/jacket.tar.gz -C /opt && \
     chown -R "${MYUSER}":"${MYUSER}" /opt/Jackett /home/"${MYUSER}" && \
     chmod 0755 /opt/Jackett && \
