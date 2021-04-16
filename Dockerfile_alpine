@@ -45,7 +45,7 @@ RUN set -x && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     mkdir -p /opt/Jackett && \
     mkdir -p /home/"${MYUSER}"/.config && \
-    curl -sSL https://github.com/Jackett/Jackett/releases/download/v${JACKETT_VERSION}/Jackett.Binaries.Mono.tar.gz -O /tmp/jacket.tar.gz && \
+    curl -sSL https://github.com/Jackett/Jackett/releases/download/v${JACKETT_VERSION}/Jackett.Binaries.Mono.tar.gz -o /tmp/jacket.tar.gz && \
     tar xzf /tmp/jacket.tar.gz -C /opt && \
     chown -R "${MYUSER}":"${MYUSER}" /opt/Jackett /home/"${MYUSER}" && \
     chmod 0755 /opt/Jackett && \
