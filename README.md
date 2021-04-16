@@ -1,3 +1,5 @@
+[![auto-update-workflow](https://github.com/digrouz/docker-jackett/actions/workflows/auto-update.yml/badge.svg)](https://github.com/digrouz/docker-jackett/actions/workflows/auto-update.yml)
+
 # docker-jackett
 Installs Jackett into a Linux Container
 
