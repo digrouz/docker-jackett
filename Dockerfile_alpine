@@ -40,7 +40,6 @@ RUN set -x && \
       mono \
     && \
     cert-sync /etc/ssl/certs/ca-certificates.crt && \
-    ln -s /usr/lib/libmono-native.so.0 /usr/lib/libmono-native.so && \
     echo "export XDG_DATA_HOME='${XDG_DATA_HOME}'" > /etc/profile.d/docker-xdg.sh && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     mkdir -p /opt/Jackett && \
