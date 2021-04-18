@@ -28,7 +28,7 @@ RUN set -x && \
     apk upgrade --no-cache && \
     apk add --no-cache --virtual=build-deps \
       ca-certificates \
-      wget \
+      curl \
     && \
     apk add --no-cache --virtual=run-deps \
       libcurl \
