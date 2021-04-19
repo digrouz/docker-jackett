@@ -1,4 +1,6 @@
 [![auto-update-workflow](https://github.com/digrouz/docker-jackett/actions/workflows/auto-update.yml/badge.svg)](https://github.com/digrouz/docker-jackett/actions/workflows/auto-update.yml)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/digrouz/jackett)
+![Docker Pulls](https://img.shields.io/docker/pulls/digrouz/jackett)
 
 # docker-jackett
 Installs Jackett into a Linux Container
