@@ -1,7 +1,7 @@
 FROM centos:7
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
-ARG JACKETT_VERSION='0.18.234'
+ARG JACKETT_VERSION='0.18.255'
 
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
