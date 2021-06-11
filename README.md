@@ -11,7 +11,7 @@ Installs Jackett into a Linux Container
 ## Tag
 Several tag are available:
 * latest: see alpine
-* centos: [Dokerfile_centos7](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_centos7)
+* centos7: [Dokerfile_centos7](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_centos7)
 * alpine: [Dockerfile_alpine](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_alpine)
 
 ## Description
