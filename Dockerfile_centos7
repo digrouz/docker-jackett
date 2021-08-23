@@ -1,3 +1,18 @@
+ARG JACKETT_VERSION='0.18.587'
+
+FROM centos:7 AS su-exec-builder
+
+RUN set -x && \
+    yum update -y && \
+    yum install -y \
+      gcc \
+      make \
+      git \
+    && \
+    git clone --depth 1 https://github.com/ncopa/su-exec.git /opt/su-exec && \
+    cd /opt/su-exec && \
+    make
+
 FROM centos:7
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
@@ -16,6 +31,7 @@ ENV LANG='en_US.UTF-8' \
     
 ### Copy config files
 COPY root/ /
+COPY --from=su-exec-builder /opt/su-exec/su-exec /usr/local/bin/su-exec
 
 ### Install Application
 RUN set -x && \
@@ -26,11 +42,10 @@ RUN set -x && \
     MYGID="${APPGID}" && \
     ConfigureUser && \
     yum install -y \
-	  epel-release \
-	 && \
+      epel-release \
+    && \
     rpm --import "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF" && \
     curl https://download.mono-project.com/repo/centos7-stable.repo -o /etc/yum.repos.d/mono-centos7-stable.repo && \
-    curl https://repo.digrouz.com/repo/centos/7/x86_64/custom/custom.repo -o /etc/yum.repos.d/custom.repo && \
     echo "export XDG_DATA_HOME='${XDG_DATA_HOME}'" > /etc/profile.d/docker-xdg.sh && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     yum update -y && \
