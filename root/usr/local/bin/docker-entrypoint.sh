@@ -27,7 +27,7 @@ elif [ "$1" = 'jackett-core' ]; then
   RunDropletEntrypoint
   
   DockLog "Starting app: ${@}"
-  exec su-exec "${MYUSER}" /opt/Jackett/JackettConsole.exe
+  exec su-exec "${MYUSER}" /opt/Jackett/jackett -d ${XDG_CONFIG_HOME} --NoUpdates --NoRestart
 else
   DockLog "Starting command: ${@}"
   exec "$@"
