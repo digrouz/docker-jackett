@@ -76,8 +76,6 @@ RUN set -x && \
       unrar \
       unzip \
     && \
-    curl -SsL "https://github.com/Jackett/Jackett/releases/download/v${JACKETT_VERSION}/Jackett.Binaries.Linux${JACKETT_ARCH}.tar.gz" -o /tmp/jackett.tar.gz && \
-    tar xzf /tmp/jackett.tar.gz -C /opt && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     chmod 0755 /opt/Jackett && \
     find /opt/Jackett -type d -exec chmod 0755 {} \; && \
