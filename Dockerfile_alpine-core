@@ -5,13 +5,17 @@ ARG JACKETT_ARCH='AMDx64'
 # build jackett for musl
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS dotnet
 
+ARG JACKETT_VERSION
+ARG JACKETT_ARCH
+
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
     TERM='xterm' \
     JACKETT_VERSION="${JACKETT_VERSION}" \
     JACKETT_ARCH="${JACKETT_ARCH}"
 
-RUN cd /tmp && \
+RUN set -x && \
+    cd /tmp && \
     wget -O- https://github.com/Jackett/Jackett/archive/refs/tags/v${JACKETT_VERSION}.tar.gz \
       | tar xz --strip-components=1 && \
     cd src && \
