@@ -50,6 +50,14 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:alpine-core
       -
+        name: Build and push tag alpine-mono
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile_alpine-mono
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:alpine-mono          
+      -
         name: Build and push tag centos7-mono
         uses: docker/build-push-action@v2
         with:
