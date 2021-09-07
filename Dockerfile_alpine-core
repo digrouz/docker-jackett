@@ -6,7 +6,7 @@ ARG JACKETT_ARCH='AMDx64'
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS dotnet
 
 RUN cd /tmp && \
-    wget -O- https://github.com/Jackett/Jackett/archive/${JACKETT_VERSION}.tar.gz \
+    wget -O- https://github.com/Jackett/Jackett/archive/refs/tags/v${JACKETT_VERSION}.tar.gz \
       | tar xz --strip-components=1 && \
     cd src && \
     printf '{\n"configProperties": {\n"System.Globalization.Invariant": true\n}\n}' >Jackett.Server/runtimeconfig.template.json && \
