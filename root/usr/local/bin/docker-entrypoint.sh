@@ -10,19 +10,24 @@ MYGID="${APPGID}"
 ConfigureUser
 AutoUpgrade
 
-if [ "$1" = 'jackett' ]; then
-  if [ -d  /opt/Jackett ]; then
-    chown -R "${MYUSER}":"${MYUSER}" /opt/Jackett
-    chmod 0755 /opt/Jackett
-  fi
+if [ "$1" = 'jackett-mono' ]; then
   if [ -d  /config ]; then
     chown -R "${MYUSER}":"${MYUSER}" /config
   fi
-  
+ 
   RunDropletEntrypoint
   
   DockLog "Starting app: ${@}"
   exec su-exec "${MYUSER}" mono /opt/Jackett/JackettConsole.exe
+elif [ "$1" = 'jackett-core' ]; then
+  if [ -d  /config ]; then
+    chown -R "${MYUSER}":"${MYUSER}" /config
+  fi
+ 
+  RunDropletEntrypoint
+  
+  DockLog "Starting app: ${@}"
+  exec su-exec "${MYUSER}" /opt/Jackett/JackettConsole.exe
 else
   DockLog "Starting command: ${@}"
   exec "$@"

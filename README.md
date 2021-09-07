@@ -10,9 +10,12 @@ Installs Jackett into a Linux Container
 
 ## Tag
 Several tag are available:
-* latest: see alpine
-* centos7: [Dokerfile_centos7](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_centos7)
-* alpine: [Dockerfile_alpine](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_alpine)
+* latest: see alpine-core
+* alpine: see alpine-core
+* centos7: see centos7-mono
+* centos7-mono: [Dokerfile_centos7-mono](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_centos7-mono)
+* alpine-mono: [Dockerfile_alpine-mono](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_alpine-mono)
+* alpine-core: [Dockerfile_alpine-core](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_alpine-core)
 
 ## Description
 
@@ -52,6 +55,7 @@ This variable is not mandatory and specifies if the container has to launch soft
 ## Notes
 
 * The docker entrypoint can upgrade operating system at each startup. To enable this feature, just add `-e DOCKUPGRADE=1` at container creation.
+* `-mono` version are not heavily tested anymore.
 
 ## Issues
 

@@ -1,4 +1,19 @@
-FROM alpine:3.14
+ARG JACKETT_VERSION='0.18.666'
+
+FROM centos:7 AS su-exec-builder
+
+RUN set -x && \
+    yum update -y && \
+    yum install -y \
+      gcc \
+      make \
+      git \
+    && \
+    git clone --depth 1 https://github.com/ncopa/su-exec.git /opt/su-exec && \
+    cd /opt/su-exec && \
+    make
+
+FROM centos:7
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
 ARG JACKETT_VERSION='0.18.666'
@@ -16,6 +31,7 @@ ENV LANG='en_US.UTF-8' \
     
 ### Copy config files
 COPY root/ /
+COPY --from=su-exec-builder /opt/su-exec/su-exec /usr/local/bin/su-exec
 
 ### Install Application
 RUN set -x && \
@@ -25,37 +41,34 @@ RUN set -x && \
     MYUID="${APPUID}" && \
     MYGID="${APPGID}" && \
     ConfigureUser && \
-    apk upgrade --no-cache && \
-    apk add --no-cache --virtual=build-deps \
-      ca-certificates \
-      curl \
+    yum install -y \
+      epel-release \
     && \
-    apk add --no-cache --virtual=run-deps \
-      libcurl \
-      python3 \
-      su-exec \
-      bash \
-    && \
-    apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --virtual=run-deps-testing \
-      mono \
-    && \
-    cert-sync /etc/ssl/certs/ca-certificates.crt && \
+    rpm --import "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF" && \
+    curl https://download.mono-project.com/repo/centos7-stable.repo -o /etc/yum.repos.d/mono-centos7-stable.repo && \
     echo "export XDG_DATA_HOME='${XDG_DATA_HOME}'" > /etc/profile.d/docker-xdg.sh && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
+    yum update -y && \
+    yum install -y \
+      ca-certificates \
+      libcurl \
+      python \
+      bash \
+      mono-devel \
+      wget \
+    && \
+    mozroots --import --sync && \
     mkdir -p /opt/Jackett && \
-    mkdir -p /home/"${MYUSER}"/.config && \
     curl -sSL https://github.com/Jackett/Jackett/releases/download/v${JACKETT_VERSION}/Jackett.Binaries.Mono.tar.gz -o /tmp/jacket.tar.gz && \
     tar xzf /tmp/jacket.tar.gz -C /opt && \
-    chown -R "${MYUSER}":"${MYUSER}" /opt/Jackett /home/"${MYUSER}" && \
-    chmod 0755 /opt/Jackett && \
-    apk del --no-cache --purge \
-      build-deps  \
-    && \
+    chown -R "${MYUSER}":"${MYUSER}" /opt/Jackett  && \
+    chmod 0755 /opt/Jackett  && \
     mkdir /docker-entrypoint.d && \
     chmod +x /usr/local/bin/docker-entrypoint.sh && \
+    yum clean all && \
     ln -snf /usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh && \
     rm -rf /tmp/* \
-           /var/cache/apk/*  \
+           /var/cache/yum/*  \
            /var/tmp/*
     
 ### Volume
@@ -69,4 +82,4 @@ Expose 9117
 
 ### Start jackett
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["jackett"]
+CMD ["jackett-mono"]

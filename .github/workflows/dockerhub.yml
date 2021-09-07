@@ -26,19 +26,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push tag latest
+        name: Build and push tag centos7-mono
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile_alpine
+          file: Dockerfile_centos7-mono
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:centos7-mono
       -
         name: Build and push tag centos7
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile_centos7
+          file: Dockerfile_centos7-mono
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:centos7
       -
@@ -46,6 +46,22 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Dockerfile_alpine
+          file: Dockerfile_alpine-core
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:alpine
+      -
+        name: Build and push tag latest
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile_alpine-core
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:latest
+      -
+        name: Build and push tag alpine-core
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile_alpine-core
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/jackett:alpine-core
