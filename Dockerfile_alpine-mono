@@ -1,7 +1,7 @@
 FROM alpine:3.14
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
-ARG JACKETT_VERSION='0.19.50'
+ARG JACKETT_VERSION='0.19.62'
 
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
