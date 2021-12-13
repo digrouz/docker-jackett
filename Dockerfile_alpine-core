@@ -19,7 +19,6 @@ RUN set -x && \
     wget -O- https://github.com/Jackett/Jackett/archive/refs/tags/v${JACKETT_VERSION}.tar.gz \
       | tar xz --strip-components=1 && \
     cd src && \
-    printf '{\n"configProperties": {\n"System.Globalization.Invariant": true\n}\n}' >Jackett.Server/runtimeconfig.template.json && \
     dotnet publish Jackett.Server -f net6.0 --self-contained -c Release -r linux-musl-x64 /p:TrimUnusedDependencies=true /p:PublishTrimmed=true -o /out && \
     echo "**** cleanup ****" && \
     apk --no-cache add \
