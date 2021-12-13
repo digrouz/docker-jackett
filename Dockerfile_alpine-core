@@ -3,7 +3,7 @@ ARG JACKETT_VERSION='0.20.159'
 ARG JACKETT_ARCH='AMDx64'
 
 # build jackett for musl
-FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS dotnet
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS dotnet
 
 ARG JACKETT_VERSION
 ARG JACKETT_ARCH
@@ -20,7 +20,7 @@ RUN set -x && \
       | tar xz --strip-components=1 && \
     cd src && \
     printf '{\n"configProperties": {\n"System.Globalization.Invariant": true\n}\n}' >Jackett.Server/runtimeconfig.template.json && \
-    dotnet publish Jackett.Server -f net5.0 --self-contained -c Release -r linux-musl-x64 /p:TrimUnusedDependencies=true /p:PublishTrimmed=true -o /out && \
+    dotnet publish Jackett.Server -f net6.0 --self-contained -c Release -r linux-musl-x64 /p:TrimUnusedDependencies=true /p:PublishTrimmed=true -o /out && \
     echo "**** cleanup ****" && \
     apk --no-cache add \
       binutils && \
