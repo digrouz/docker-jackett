@@ -28,7 +28,7 @@ RUN set -x && \
     chmod +x jackett && \
     strip -s /out/*.so
 
-FROM alpine:3.15.2
+FROM alpine:3.15.3
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
 ARG JACKETT_VERSION
