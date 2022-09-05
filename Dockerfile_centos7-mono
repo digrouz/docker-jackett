@@ -1,4 +1,4 @@
-ARG JACKETT_VERSION='0.20.1825'
+ARG JACKETT_VERSION='0.20.1830'
 
 FROM centos:7 AS su-exec-builder
 
