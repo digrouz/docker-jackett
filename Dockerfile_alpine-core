@@ -1,18 +1,24 @@
 # environment settings
 ARG JACKETT_VERSION='0.20.2336'
 ARG JACKETT_ARCH='AMDx64'
+ARG S6_VERSION='3.1.2.1'
+ARG S6_ARCH='x86_64'
 
 # build jackett for musl
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS dotnet
 
 ARG JACKETT_VERSION
 ARG JACKETT_ARCH
+ARG S6_VERSION
+ARG S6_ARCH
 
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
     TERM='xterm' \
     JACKETT_VERSION="${JACKETT_VERSION}" \
-    JACKETT_ARCH="${JACKETT_ARCH}"
+    JACKETT_ARCH="${JACKETT_ARCH}"\
+    S6_VERSION="${S6_VERSION}" \
+    S6_ARCH="${S6_ARCH}"
 
 RUN set -x && \
     cd /tmp && \
@@ -33,32 +39,36 @@ LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
 ARG JACKETT_VERSION
 ARG JACKETT_ARCH
+ARG S6_VERSION
+ARG S6_ARCH
 
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
     TERM='xterm' \
-    APPUSER='jackett' \
-    APPUID='10008' \
-    APPGID='10008' \
     XDG_DATA_HOME='/config' \
     XDG_CONFIG_HOME='/config' \
     JACKETT_VERSION="${JACKETT_VERSION}" \
-    JACKETT_ARCH="${JACKETT_ARCH}"
+    JACKETT_ARCH="${JACKETT_ARCH}"\
+    S6_VERSION="${S6_VERSION}" \
+    S6_ARCH="${S6_ARCH}"
     
 ### Copy config files
 COPY root/ /
 COPY --from=dotnet /out /opt/Jackett
 
 ### Install Application
-RUN set -x && \
-    chmod 1777 /tmp && \
-    . /usr/local/bin/docker-entrypoint-functions.sh && \
-    MYUSER="${APPUSER}" && \
-    MYUID="${APPUID}" && \
-    MYGID="${APPGID}" && \
-    ConfigureUser && \
+RUN set -x \
     apk upgrade --no-cache && \
+    mkdir /tmp/s6 && \
+    wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-noarch.tar.xz -O /tmp/s6/s6-overlay-noarch.tar.xz && \
+    wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256 -O /tmp/s6/s6-overlay-noarch.tar.xz.sha256 && \
+    wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz -O /tmp/s6/s6-overlay-${S6_ARCH}.tar.xz && \
+    wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz.sha256 -O /tmp/s6/s6-overlay-${S6_ARCH}.tar.xz.sha256 && \
+    cd /tmp/s6 && \
+    sha256sum -c *.sha256 && \
+    tar -Jxpf s6-overlay-noarch.tar.xz -C / && \
+    tar -Jxpf s6-overlay-${S6_ARCH}.tar.xz -C / && \
     apk add --no-cache --virtual=build-deps \
       ca-certificates \
       curl \
@@ -98,5 +108,5 @@ Expose 9117
 #USER jackett
 
 ### Start jackett
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/init"]
 CMD ["jackett-core"]

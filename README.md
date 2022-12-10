@@ -13,9 +13,6 @@ Installs Jackett into a Linux Container
 Several tag are available:
 * latest: see alpine-core
 * alpine: see alpine-core
-* centos7: see centos7-mono
-* centos7-mono: [Dokerfile_centos7-mono](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_centos7-mono)
-* alpine-mono: [Dockerfile_alpine-mono](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_alpine-mono)
 * alpine-core: [Dockerfile_alpine-core](https://github.com/digrouz/docker-jackett/blob/master/Dockerfile_alpine-core)
 
 ## Description
