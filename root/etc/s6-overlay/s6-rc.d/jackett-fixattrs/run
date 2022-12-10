@@ -1,0 +1,5 @@
+#!/command/with-contenv sh
+
+chown -R daemon:daemon /config
+find /config -type d -exec chmod 0775 {} \; 
+find /config -type f -exec chmod 0664 {} \; 

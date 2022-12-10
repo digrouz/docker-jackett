@@ -74,7 +74,6 @@ RUN set -x \
       curl \
     && \
     apk add --no-cache --virtual=run-deps \
-      bash \
       ca-certificates \
       gcompat \
       icu \
@@ -86,13 +85,9 @@ RUN set -x \
     find /opt/Jackett -type d -exec chmod 0755 {} \; && \
     find /opt/Jackett -type f -exec chmod 0644 {} \; && \
     chmod 0755 /opt/Jackett/jackett && \
-    chown -R "${MYUSER}":"${MYUSER}" /opt/Jackett && \
     apk del --no-cache --purge \
       build-deps  \
     && \
-    mkdir /docker-entrypoint.d && \
-    chmod +x /usr/local/bin/docker-entrypoint.sh && \
-    ln -snf /usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh && \
     rm -rf /tmp/* \
            /var/cache/apk/*  \
            /var/tmp/*
@@ -108,4 +103,3 @@ Expose 9117
 
 ### Start jackett
 ENTRYPOINT ["/init"]
-CMD ["jackett-core"]
