@@ -80,7 +80,6 @@ RUN set -x \
       icu \
       libintl \
       sqlite-libs \
-      su-exec \
     && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     chmod 0755 /opt/Jackett && \
