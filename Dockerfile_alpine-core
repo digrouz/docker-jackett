@@ -62,7 +62,7 @@ RUN set -x \
       sqlite-libs \
     && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
-    echo "${JACKETT_VERSION}-${JACKETT_ARCH}-digrouz" > /etc/docker-image
+    echo "${JACKETT_VERSION}-${JACKETT_ARCH}-digrouz" > /etc/docker-image && \
     chmod 0755 /opt/Jackett && \
     find /opt/Jackett -type d -exec chmod 0755 {} \; && \
     find /opt/Jackett -type f -exec chmod 0644 {} \; && \
