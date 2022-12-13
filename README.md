@@ -7,7 +7,7 @@
 Installs Jackett into a Linux Container
 
 
-![jackett](https://github.com/Jackett/Jackett/blob/master/src/Jackett/Content/jacket_medium.png)
+![jackett](https://github.com/Jackett/Jackett/blob/master/src//Jackett.Common/Content/jacket_medium.png)
 
 ## Tag
 Several tag are available:
