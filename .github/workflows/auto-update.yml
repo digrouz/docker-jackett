@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - env:
+          GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
+        uses: actions/checkout@v3
       - name: configure git
         run: |
           git config --global user.email "nicolas.digregorio@gmail.com"
