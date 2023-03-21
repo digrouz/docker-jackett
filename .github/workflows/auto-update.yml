@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - env:
-          GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
       - uses: actions/checkout@v3
       - name: configure git
         run: |
           git config --global user.email "nicolas.digregorio@gmail.com"
           git config --global user.name "Nicolas DI GREGORIO"
       - name: run update.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
         run: |
           echo "Run update.sh"
           bash .github/scripts/update.sh
