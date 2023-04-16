@@ -1,5 +1,5 @@
 # environment settings
-ARG JACKETT_VERSION='0.20.3903'
+ARG JACKETT_VERSION='0.20.3906'
 ARG JACKETT_ARCH='AMDx64'
 
 # build jackett for musl
