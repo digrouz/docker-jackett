@@ -3,7 +3,7 @@ ARG JACKETT_VERSION='0.22.43'
 ARG JACKETT_ARCH='AMDx64'
 
 # build jackett for musl
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS dotnet
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS dotnet
 
 ARG JACKETT_VERSION
 ARG JACKETT_ARCH
@@ -19,7 +19,7 @@ RUN set -x && \
     wget -O- https://github.com/Jackett/Jackett/archive/refs/tags/v${JACKETT_VERSION}.tar.gz \
       | tar xz --strip-components=1 && \
     cd src && \
-    dotnet publish Jackett.Server -f net6.0 --self-contained -c Release -r linux-musl-x64 /p:TrimUnusedDependencies=true /p:PublishTrimmed=true -o /out && \
+    dotnet publish Jackett.Server -f net8.0 --self-contained -c Release -r linux-musl-x64 /p:TrimUnusedDependencies=true /p:PublishTrimmed=true -o /out && \
     echo "**** cleanup ****" && \
     apk --no-cache add \
       binutils && \
