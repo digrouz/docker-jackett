@@ -34,7 +34,7 @@ RUN set -x \
     && \
     curl -SsL https://github.com/Jackett/Jackett/releases/download/v${JACKETT_VERSION}/Jackett.Binaries.LinuxMusl${JACKETT_ARCH}.tar.gz -o /tmp/jackett.tar.gz && \
     tar xzf /tmp/jackett.tar.gz -C /tmp/ --strip-components=1 && \
-    ls -l && \
+    ls -l /tmp && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     echo "${JACKETT_VERSION}-${JACKETT_ARCH}-digrouz" > /etc/docker-image && \
     chmod 0755 /opt/Jackett && \
