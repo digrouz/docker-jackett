@@ -33,7 +33,7 @@ RUN set -x \
       sqlite-libs \
     && \
     curl -SsL https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.LinuxMusl${JACKETT_ARCH}.tar.gz -o /tmp/jackett.tar.gz && \
-    tar xzf --strip-components=1 /tmp/jacket.tar.gz -C /opt/Jackett && \
+    tar xzf /tmp/jacket.tar.gz -C /opt/Jackett --strip-components=1 && \
     echo "export XDG_CONFIG_HOME='${XDG_CONFIG_HOME}'" >> /etc/profile.d/docker-xdg.sh && \
     echo "${JACKETT_VERSION}-${JACKETT_ARCH}-digrouz" > /etc/docker-image && \
     chmod 0755 /opt/Jackett && \
