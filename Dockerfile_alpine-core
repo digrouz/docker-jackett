@@ -28,7 +28,7 @@ RUN set -x \
       gcompat \
       icu \
       icu-data-full \
-      icu-libs && \
+      icu-libs \
       libintl \
       sqlite-libs \
     && \
