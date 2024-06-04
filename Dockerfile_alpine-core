@@ -15,7 +15,6 @@ ENV LANG='en_US.UTF-8' \
 
 ### Copy config files
 COPY root/ /
-COPY --from=dotnet /out /opt/Jackett
 
 ### Install Application
 RUN set -x \
