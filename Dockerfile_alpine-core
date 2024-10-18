@@ -1,7 +1,7 @@
 FROM digrouz/alpine-s6:latest
 LABEL maintainer "DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>"
 
-ARG JACKETT_VERSION='0.22.806'
+ARG JACKETT_VERSION='0.22.809'
 ARG JACKETT_ARCH='AMDx64'
 
 ### Environment variables
