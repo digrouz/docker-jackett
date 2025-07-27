@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-jackett
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: jackett
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: jackett
+    spec:
+      containers:
+        - name: jackett
+          image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 9117
+          volumeMounts:
+            - mountPath: /config
+              name: jackett-config
+            - mountPath: /downloads
+              name: jackett-downloads
+          env:
+            - name: GID
+              value: "{{ .Values.service.gid }}"
+            - name: UID
+              value: "{{ .Values.service.uid }}"
+            - name: TZ
+              value: "{{ .Values.service.tz }}"
+            - name: AUTOUPGRADE
+              value: "{{ .Values.service.autoupgrade }}"
+      volumes:
+        - name: jackett-config
+          {{- if eq .Values.persistence.config.type "pvc" }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-config-pvc
+          {{- else if eq .Values.persistence.config.type "nfs" }}
+          nfs:
+            server: {{ .Values.persistence.config.nfs.server }}
+            path: {{ .Values.persistence.config.nfs.path }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
+        - name: jackett-downloads
+          {{- if eq .Values.persistence.downloads.type "pvc" }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-downloads-pvc
+          {{- else if eq .Values.persistence.downloads.type "nfs" }}
+          nfs:
+            server: {{ .Values.persistence.downloads.nfs.server }}
+            path: {{ .Values.persistence.downloads.nfs.path }}
+          {{- else }}
+          emptyDir: { }
+          {{- end }}
